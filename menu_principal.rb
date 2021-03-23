@@ -194,6 +194,43 @@ def list_character
     end
 end
 
+#treinar personagem
+def training_area 
+    puts "Escolha qual personagem deseja treinar:"
+    
+    indice = 0
+    $lista_personagens.each do |personagem|
+        indice+=1
+        puts "-------------------- #{indice} -------------------- "
+        personagem.to_s
+        puts '----------------------------------------------------'
+    end
+    op_personagem = gets.to_i 
+
+    puts "Escolha qual classe deseja incluir:"
+    find_classes 0
+    op_classe = gets.to_i
+    indice = 0
+    $lista_personagens.each do |personagem|
+        indice+=1
+        if op_personagem == indice
+            puts ""
+            def personagem.treinado classe
+                @classes << classe
+                @vida = raca.vida + classe.modificadores[:vida]
+                @ataque = raca.ataque + classe.modificadores[:ataque]
+                @defesa = raca.defesa + classe.modificadores[:defesa]
+                @inteligencia = raca.inteligencia + classe.modificadores[:inteligencia]
+                @forca = raca.forca + classe.modificadores[:forca]
+            end
+            classe = find_classes op_classe
+            personagem.treinado classe
+            puts "Personagem agora:"
+            personagem.to_s
+            puts ""
+        end
+    end   
+end
 
 #inicializa em 8 pra que seja verdadeira a condição do while
 op = 8
@@ -216,7 +253,7 @@ while op != 0
         create_class
     elsif op == 3
         puts " > Treinar"
-        
+        training_area
     elsif op == 4
         puts " > Listar Personangens"
         list_character
