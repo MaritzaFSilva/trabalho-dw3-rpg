@@ -1,6 +1,7 @@
 require_relative './tipos_raca'
 require_relative './personagem'
 require_relative './classe'
+require 'faker'
 
 $lista_personagens = []
 $classes_salvas = []
@@ -111,9 +112,20 @@ end
 
 #criar personagem
 def create_character raca
+    op_nome = 0
     puts "Ainda sobre seu personagem!"
-    puts "Nome:"
-    nome = gets.strip.to_s
+    puts "1 - Informar nome"
+    puts "2 - Gerar nome aleatório"
+    op_nome = gets.strip.to_i
+
+    if (op_nome == 1)
+        puts " > Digite o nome desejado:"
+        nome = gets.strip.to_s
+    else
+        nome = Faker::Name.name
+        puts " > Gerado nome aleatório: #{nome}"
+    end 
+    
     puts "Idade:"
     idade = gets.strip.to_i
 
