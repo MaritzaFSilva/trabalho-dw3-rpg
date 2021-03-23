@@ -2,6 +2,7 @@ require_relative './tipos_raca'
 require_relative './personagem'
 require_relative './classe'
 
+$lista_personagens = []
 $classes_salvas = []
 
 def load_static_classes
@@ -40,7 +41,108 @@ def create_class
 end
 
 
+# encontrar classes 
+# se op_classe = 0 então retorna todas
+def find_classes op_classe
+    if op_classe != 0
+        indice = 0
+        $classes_salvas.each do |classe|
+            indice+=1
+            if op_classe == indice
+                return classe
+            end
+        end
+    else
+        indice = 0
+        $classes_salvas.each do |classe|
+            indice+=1
+            puts "#{indice} - classe #{classe.nome_classe}."
+        end
+    end
+end
 
+# Caso seja passado em FLAG = 0 ele direciona para criar o usuario da raça selecionada
+# caso contrário ele retorna a raça;
+def create_character_race flag
+    puts "Selecione a raça que deseja:"
+    puts "1 - Humano"
+    puts "2 - Elfo"
+    puts "3 - Orc"
+    puts "4 - Anão"
+    op_raca = gets.to_i
+
+    if op_raca == 1
+        raca = Humano.new
+        if flag == 0
+            puts " > #{raca.nome_raca}! "
+            create_character raca
+        else
+            return raca
+        end
+    elsif op_raca == 2
+        raca = Elfo.new
+        if flag == 0
+            puts " > #{raca.nome_raca}! "
+            create_character raca
+        else
+            return raca
+        end
+    elsif op_raca == 3
+        raca = Orc.new
+        if flag == 0
+            puts " > #{raca.nome_raca}! "
+            create_character raca
+        else
+            return raca
+        end
+    elsif op_raca == 4
+        raca = Anao.new
+        if flag == 0
+            puts " > #{raca.nome_raca}! "
+            create_character raca
+        else
+            return raca
+        end
+    else 
+       puts 'Tente novamente!'
+    end
+end
+
+
+#criar personagem
+def create_character raca
+    puts "Ainda sobre seu personagem!"
+    puts "Nome:"
+    nome = gets.strip.to_s
+    puts "Idade:"
+    idade = gets.strip.to_i
+
+    flag = 0
+    while flag == 0
+        puts "Escolha a classe a qual seu personagem pertence:"
+        op_classe = 0
+        find_classes 0
+        op_classe = gets.strip.to_i
+        
+        if (op_classe > 0) && (find_classes op_classe != nil)
+            indice = 0
+            classe = find_classes op_classe
+            if classe != nil
+                puts "Classe #{classe.nome_classe} selecionada!"
+                personagem = Personagem.new nome, idade, raca, classe
+                $lista_personagens << personagem
+                flag = 1
+                
+                personagem.to_s
+                puts "Salvo com sucesso!"
+            else
+                puts 'Erro ao salvar classe'
+            end
+        else
+            puts 'Tente novamente!'
+        end 
+    end
+end
 
 #inicializa em 8 pra que seja verdadeira a condição do while
 op = 8
@@ -57,7 +159,7 @@ while op != 0
     
     if op == 1 
         puts " > Cadastrar Personagem"
-      
+        create_character_race 0
     elsif op == 2
         puts " > Cadastrar Classe"
         create_class
