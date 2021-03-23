@@ -144,6 +144,57 @@ def create_character raca
     end
 end
 
+
+# exibe informações do personsagem
+def show_character personagem
+    puts '----------------------------------------------------'
+    puts "Personagem #{personagem.nome_personagem}\nRaca #{personagem.raca.nome_raca}\nClasses:"
+    personagem.classes.each do |classe|
+        classe.to_s
+    end
+    puts "\nVida: #{personagem.vida}\nForca: #{personagem.forca}\nAtaque: #{personagem.ataque}\nDefesa: #{personagem.defesa}\nInteligencia: #{personagem.inteligencia}"
+    puts '----------------------------------------------------'
+end
+
+#lista de personagens
+def list_character
+    puts "Listar personagens por: \n1 - Raca\n2 - Classe"
+    op_busca = gets.to_i
+    
+    if op_busca == 1
+        op_busca_raca = create_character_race 1
+        cont = 0
+        $lista_personagens.each do |personagem|
+            if personagem.raca.nome_raca == op_busca_raca.nome_raca
+                show_character personagem
+                cont+=1
+            end
+        end
+        if cont == 0
+            puts "Nenhum personagem encontrado!"
+        end
+    elsif op_busca == 2
+        puts 'Escolha uma classe:'
+        find_classes 0
+        op_busca_classe = find_classes gets.to_i
+        cont = 0
+        $lista_personagens.each do |personagem|
+            personagem.classes.each do |classe|
+                if classe.nome_classe == op_busca_classe.nome_classe
+                    show_character personagem
+                    cont+=1
+                end
+            end
+        end
+        if cont == 0
+            puts "Nenhum personagem encontrado!"
+        end
+    else
+        puts 'Tente novamente!'
+    end
+end
+
+
 #inicializa em 8 pra que seja verdadeira a condição do while
 op = 8
 
@@ -165,10 +216,10 @@ while op != 0
         create_class
     elsif op == 3
         puts " > Treinar"
-       
+        
     elsif op == 4
         puts " > Listar Personangens"
-        
+        list_character
     elsif op == 0
         puts 'Saindo..'
     else
